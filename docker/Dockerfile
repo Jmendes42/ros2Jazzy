@@ -52,7 +52,7 @@ COPY entrypoint.sh /entrypoint.sh
 WORKDIR /ws/
 
 # Automatically source ROS in bashrc
-RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/$USERNAME/.bashrc && \
+RUN echo "source /opt/ros/jazzy/setup.bash \n source /ws/install/setup.bash" >> /home/$USERNAME/.bashrc && \
     chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
 
 # Set up entrypoint and default command
