@@ -11,9 +11,8 @@ class MinimalPublisher : public rclcpp::Node
 public:
     MinimalPublisher();
 
-private:
     void timerCallback();
-
+private:
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr _publisher;
     rclcpp::TimerBase::SharedPtr _timer;
     int _count;

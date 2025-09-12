@@ -22,10 +22,13 @@ install(TARGETS
 )
 
 if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
+  find_package(ament_cmake_gtest REQUIRED)
+
+  ament_add_gtest(publisher_test test/test_publisher.cpp)
+  ament_target_dependencies(publisher_test rclcpp std_msgs ${dependencies})
+
   set(ament_cmake_copyright_FOUND TRUE)
   set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
 endif()
 
 ament_package()
