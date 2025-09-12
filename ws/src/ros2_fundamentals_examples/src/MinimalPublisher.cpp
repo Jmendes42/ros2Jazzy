@@ -6,7 +6,7 @@ MinimalPublisher::MinimalPublisher()
     : Node("minimal_publisher")
     , _count(0)
 {
-    _publisher = create_publisher<std_msgs::msg::String>("minimal_publisher", 10);
+    _publisher = create_publisher<std_msgs::msg::String>("minimal_topic", 10);
     _timer = create_wall_timer(std::chrono::milliseconds(500), [this] { timerCallback(); });
     RCLCPP_INFO(get_logger(), "MinimalPublisher created");
 }
