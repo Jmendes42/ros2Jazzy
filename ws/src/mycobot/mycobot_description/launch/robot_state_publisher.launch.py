@@ -27,20 +27,20 @@ def process_ros2_controllers_config(context):
 
     # Get the configuration values
     prefix = LaunchConfiguration('prefix').perform(context)
+    flange_link = LaunchConfiguration('flange_link').perform(context)
     robot_name = LaunchConfiguration('robot_name').perform(context)
-    enable_odom_tf = LaunchConfiguration('enable_odom_tf').perform(context)
 
     home = str(Path.home())
 
     # Define both source and install paths
     src_config_path = os.path.join(
         home,
-        'ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/config',
+        'ros2_ws/src/mycobot_ros2/mycobot_moveit_config/config',
         robot_name
     )
     install_config_path = os.path.join(
         home,
-        'ros2_ws/install/yahboom_rosmaster_description/share/yahboom_rosmaster_description/config',
+        'ros2_ws/install/mycobot_moveit_config/share/mycobot_moveit_config/config',
         robot_name
     )
 
@@ -51,8 +51,7 @@ def process_ros2_controllers_config(context):
 
     # Create processed content (leaving template untouched)
     processed_content = template_content.replace('${prefix}', prefix)
-    processed_content = processed_content.replace(
-        'enable_odom_tf: true', f'enable_odom_tf: {enable_odom_tf}')
+    processed_content = processed_content.replace('${flange_link}', flange_link)
 
     # Write processed content to both source and install directories
     for config_path in [src_config_path, install_config_path]:
@@ -66,24 +65,38 @@ def process_ros2_controllers_config(context):
 
 # Define the arguments for the XACRO file
 ARGUMENTS = [
-    DeclareLaunchArgument('robot_name', default_value='rosmaster_x3',
+    DeclareLaunchArgument('robot_name', default_value='mycobot_280',
                           description='Name of the robot'),
     DeclareLaunchArgument('prefix', default_value='',
                           description='Prefix for robot joints and links'),
+    DeclareLaunchArgument('add_world', default_value='true',
+                          choices=['true', 'false'],
+                          description='Whether to add world link'),
+    DeclareLaunchArgument('base_link', default_value='base_link',
+                          description='Name of the base link'),
+    DeclareLaunchArgument('base_type', default_value='g_shape',
+                          description='Type of the base'),
+    DeclareLaunchArgument('flange_link', default_value='link6_flange',
+                          description='Name of the flange link'),
+    DeclareLaunchArgument('gripper_type', default_value='adaptive_gripper',
+                          description='Type of the gripper'),
+    DeclareLaunchArgument('use_camera', default_value='false',
+                          choices=['true', 'false'],
+                          description='Whether to use the RGBD Gazebo plugin for point cloud'),
     DeclareLaunchArgument('use_gazebo', default_value='false',
                           choices=['true', 'false'],
                           description='Whether to use Gazebo simulation'),
-    DeclareLaunchArgument('enable_odom_tf', default_value='true',
+    DeclareLaunchArgument('use_gripper', default_value='true',
                           choices=['true', 'false'],
-                          description='Enable odometry transform broadcasting via ROS 2 Control')
+                          description='Whether to attach a gripper')
 ]
 
 
 def generate_launch_description():
-    """Generate the launch description for the robot visualization.
+    """Generate the launch description for the mycobot robot visualization.
 
     This function sets up all necessary nodes and parameters for visualizing
-    the robot in RViz, including:
+    the mycobot robot in RViz, including:
     - Robot state publisher for broadcasting transforms
     - Joint state publisher for simulating joint movements
     - RViz for visualization
@@ -92,9 +105,9 @@ def generate_launch_description():
         LaunchDescription: Complete launch description for the visualization setup
     """
     # Define filenames
-    urdf_package = 'yahboom_rosmaster_description'
-    urdf_filename = 'rosmaster_x3.urdf.xacro'
-    rviz_config_filename = 'yahboom_rosmaster_description.rviz'
+    urdf_package = 'mycobot_description'
+    urdf_filename = 'mycobot_280.urdf.xacro'
+    rviz_config_filename = 'mycobot_280_description.rviz'
 
     # Set paths to important files
     pkg_share_description = FindPackageShare(urdf_package)
@@ -148,7 +161,14 @@ def generate_launch_description():
         'xacro', ' ', urdf_model, ' ',
         'robot_name:=', LaunchConfiguration('robot_name'), ' ',
         'prefix:=', LaunchConfiguration('prefix'), ' ',
-        'use_gazebo:=', LaunchConfiguration('use_gazebo')
+        'add_world:=', LaunchConfiguration('add_world'), ' ',
+        'base_link:=', LaunchConfiguration('base_link'), ' ',
+        'base_type:=', LaunchConfiguration('base_type'), ' ',
+        'flange_link:=', LaunchConfiguration('flange_link'), ' ',
+        'gripper_type:=', LaunchConfiguration('gripper_type'), ' ',
+        'use_camera:=', LaunchConfiguration('use_camera'), ' ',
+        'use_gazebo:=', LaunchConfiguration('use_gazebo'), ' ',
+        'use_gripper:=', LaunchConfiguration('use_gripper')
     ]), value_type=str)
 
     # Subscribe to the joint states of the robot, and publish the 3D pose of each link.
