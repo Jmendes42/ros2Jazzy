@@ -1,6 +1,6 @@
 #!/bin/bash
 
 source /opt/ros/jazzy/setup.bash
-source /scara_ws/install/setup.bash
+source /home/void/ws/install/setup.bash
 
 exec cmake "$@"

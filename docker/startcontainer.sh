@@ -10,24 +10,22 @@
 
 set -e
 
-CONTAINER_NAME="jazzy"
+CONTAINER_NAME="jazzy-dev"
 IMAGE_NAME="jazzy-dev"
 WORKSPACE_DIR="$PWD/ws"
 
 if [ "$(docker ps -q -f name=^/${CONTAINER_NAME}$)" ]; then
     echo "Container ${CONTAINER_NAME} is already running."
 else
-    # Run container in detached mode with bash entrypoint
-    docker run -itd --rm \
-        --user void \
-        --network=host \
-        --ipc=host \
-        -v "$WORKSPACE_DIR":/ws \
-        -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
-        --env=DISPLAY \
-        --name $CONTAINER_NAME \
-        $IMAGE_NAME \
-        bash -c "/entrypoint.sh"
+  docker run -itd --rm \
+    --user void \
+    --network=host \
+    --ipc=host \
+    -v "$WORKSPACE_DIR":/home/void/ws \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+    --env=DISPLAY \
+    --name $CONTAINER_NAME \
+    $IMAGE_NAME
 fi
 
 # Wait for the container to initialize

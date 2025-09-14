@@ -1,10 +1,8 @@
 #!/bin/bash
 set -e
 
-if [ -f /ws/install/setup.bash ]; then
-    source /ws/install/setup.bash
-fi
+echo "export GZ_SIM_RESOURCE_PATH=/home/void/ws/src/mycobot/mycobot_gazebo/models" >> /home/void/.bashrc
+echo "alias build=\"cd /home/void/ws && colcon build\"" >> /home/void/.bashrc
+echo "alias mycobot=\"bash ~/ws/src/mycobot/mycobot_bringup/scripts/mycobot_280_gazebo.sh\"" >> /home/void/.bashrc
 
-exec bash
-echo "export RMW_IMPLEMENTATION=rmw-cyclonedds-cpp" >> /home/void/.bashrc
-
+exec "$@"
