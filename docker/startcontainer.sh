@@ -12,7 +12,7 @@ set -e
 
 CONTAINER_NAME="jazzy-dev"
 IMAGE_NAME="jazzy-dev"
-WORKSPACE_DIR="$PWD/ws"
+WORKSPACE_DIR="$PWD/ros2_ws"
 
 if [ "$(docker ps -q -f name=^/${CONTAINER_NAME}$)" ]; then
     echo "Container ${CONTAINER_NAME} is already running."
@@ -21,7 +21,7 @@ else
     --user void \
     --network=host \
     --ipc=host \
-    -v "$WORKSPACE_DIR":/home/void/ws \
+    -v "$WORKSPACE_DIR":/home/void/ros2_ws \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     --env=DISPLAY \
     --name $CONTAINER_NAME \

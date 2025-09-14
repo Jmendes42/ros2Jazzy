@@ -49,7 +49,7 @@ RUN apt-get update \
 COPY entrypoint.sh /entrypoint.sh
 
 # Set up the working directory
-WORKDIR /home/void/ws/
+WORKDIR /home/void/ros2_ws/
 
 # Automatically source ROS and workspace in bashrc
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/$USERNAME/.bashrc \
