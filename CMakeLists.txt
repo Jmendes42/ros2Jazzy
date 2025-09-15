@@ -10,7 +10,11 @@ add_subdirectory(ros2_ws/src/mycobot_ros2/mycobot_gazebo)
 add_subdirectory(ros2_ws/src/mycobot_ros2/mycobot_moveit_config)
 add_subdirectory(ros2_ws/src/mycobot_ros2/mycobot_system_tests)
 
+add_subdirectory(ros2_ws/src/yahboom_rosmaster/mecanum_drive_controller)
 add_subdirectory(ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster)
+add_subdirectory(ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_bringup)
 add_subdirectory(ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description)
+add_subdirectory(ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_gazebo)
+add_subdirectory(ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_system_tests)
 
 set(CMAKE_CXX_STANDARD 20)

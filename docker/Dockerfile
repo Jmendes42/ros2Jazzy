@@ -12,14 +12,15 @@ RUN apt-get update \
 # Install necessary ROS 2 control packages
 RUN apt-get update \
   && apt-get install -y \
+    ros-jazzy-gz-ros2-control \
+    ros-jazzy-gz-ros2-control-demos \
     ros-jazzy-ros2-control \
     ros-jazzy-ros2-controllers \
+    ros-jazzy-ros-gz \
+    ros-jazzy-moveit \
     ros-jazzy-joint-state-publisher \
     ros-jazzy-joint-state-publisher-gui \
     ros-jazzy-urdf-tutorial \
-    ros-jazzy-ros-gz \
-    ros-jazzy-gz-ros2-control \
-    ros-jazzy-moveit \
     ros-jazzy-rmw-cyclonedds-cpp \
   && rm -rf /var/lib/apt/lists/*
 
@@ -53,7 +54,7 @@ WORKDIR /home/void/ros2_ws/
 
 # Automatically source ROS and workspace in bashrc
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /home/$USERNAME/.bashrc \
-  && echo "source /home/void/ws/install/setup.bash" >> /home/$USERNAME/.bashrc \
+  && echo "source /home/void/ros2_ws/install/setup.bash" >> /home/$USERNAME/.bashrc \
   && chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
 
 # Set up entrypoint and default command
