@@ -1,0 +1,11 @@
+# Request parameters for the timed rotation
+float64 angular_velocity
+float64 duration
+---
+# Result of the completed rotation
+bool success
+float64 actual_duration
+---
+# Continuous feedback during rotation
+float64 elapsed_time
+string status

@@ -11,6 +11,7 @@ find_package(rclcpp_action REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
+find_package(yahboom_rosmaster_msgs REQUIRED)
 
 install(
     DIRECTORY config launch
@@ -23,9 +24,17 @@ ament_target_dependencies(mecanum_parameters_node rclcpp geometry_msgs std_msgs 
 add_executable(square_mecanum_controller src/square_mecanum_controller.cpp)
 ament_target_dependencies(square_mecanum_controller rclcpp geometry_msgs std_msgs)
 
+add_executable(timed_rotation_action_server src/timed_rotation_action_server.cpp)
+ament_target_dependencies(timed_rotation_action_server rclcpp rclcpp_action geometry_msgs std_msgs yahboom_rosmaster_msgs)
+
+add_executable(timed_rotation_action_client src/timed_rotation_action_client.cpp)
+ament_target_dependencies(timed_rotation_action_client rclcpp rclcpp_action geometry_msgs std_msgs yahboom_rosmaster_msgs)
+
 install(TARGETS
     mecanum_parameters_node
     square_mecanum_controller
+    timed_rotation_action_server
+    timed_rotation_action_client
     DESTINATION lib/${PROJECT_NAME}
 )
 
