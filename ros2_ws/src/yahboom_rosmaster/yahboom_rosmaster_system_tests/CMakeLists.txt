@@ -12,14 +12,19 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(rcl_interfaces REQUIRED)
 
-add_executable(mecanum_parameters src/mecanum_parameters_node.cpp)
-ament_target_dependencies(mecanum_parameters rclcpp geometry_msgs std_msgs rcl_interfaces)
+install(
+    DIRECTORY config launch
+    DESTINATION share/${PROJECT_NAME}
+)
+
+add_executable(mecanum_parameters_node src/mecanum_parameters_node.cpp)
+ament_target_dependencies(mecanum_parameters_node rclcpp geometry_msgs std_msgs rcl_interfaces)
 
 add_executable(square_mecanum_controller src/square_mecanum_controller.cpp)
 ament_target_dependencies(square_mecanum_controller rclcpp geometry_msgs std_msgs)
 
 install(TARGETS
-    mecanum_parameters
+    mecanum_parameters_node
     square_mecanum_controller
     DESTINATION lib/${PROJECT_NAME}
 )
